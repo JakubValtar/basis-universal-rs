@@ -131,28 +131,6 @@ impl CompressorParams {
         }
     }
 
-    /// Use the global codebook to compress the image. slightly smaller files, but lower quality,
-    /// slower encoding
-    pub fn set_use_global_codebook(
-        &mut self,
-        use_global_codebook: bool,
-    ) {
-        unsafe {
-            sys::compressor_params_set_global_sel_pal(self.0, use_global_codebook);
-        }
-    }
-
-    /// Automatically use virtual selector palettes on small images for slightly smaller files
-    /// (defaults to off for faster encoding time)
-    pub fn set_auto_use_global_codebook(
-        &mut self,
-        auto_use_global_codebook: bool,
-    ) {
-        unsafe {
-            sys::compressor_params_set_auto_global_sel_pal(self.0, auto_use_global_codebook);
-        }
-    }
-
     /// Set the basis format we will compress to. See basis documentation for details. This
     /// corresponds to the -uastc flag in the basisu command line tool and the m_uastc boolean param
     /// on `basis_compressor_params` in the original library

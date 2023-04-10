@@ -223,20 +223,17 @@ extern "C" {
     // basisu_transcoder
     //
     struct Transcoder {
-        basist::etc1_global_selector_codebook *pCodebook;
         basist::basisu_transcoder *pTranscoder;
     };
 
     Transcoder *transcoder_new() {
         Transcoder *transcoder = new Transcoder;
-        transcoder->pCodebook = new basist::etc1_global_selector_codebook(basist::g_global_selector_cb_size, basist::g_global_selector_cb);
-        transcoder->pTranscoder = new basist::basisu_transcoder(transcoder->pCodebook);
+        transcoder->pTranscoder = new basist::basisu_transcoder();
         return transcoder;
     };
 
     void transcoder_delete(Transcoder *transcoder) {
         delete transcoder->pTranscoder;
-        delete transcoder->pCodebook;
         delete transcoder;
     }
 
