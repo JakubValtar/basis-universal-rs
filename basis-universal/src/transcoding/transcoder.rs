@@ -422,9 +422,18 @@ impl LowLevelUastcTranscoder {
         let channel0 = 0;
         let channel1 = 3;
 
-        let output_row_pitch_in_blocks_or_pixels =
-            (slice_parameters.original_width + transcode_block_format.block_width() - 1)
-                / transcode_block_format.block_width();
+        let output_row_pitch_in_blocks_or_pixels = {
+            let output_row_pitch_in_blocks =
+                (slice_parameters.original_width + transcode_block_format.block_width() - 1)
+                    / transcode_block_format.block_width();
+            if transcode_block_format.is_compressed() {
+                // Blocks
+                output_row_pitch_in_blocks
+            } else {
+                // Pixels
+                output_row_pitch_in_blocks * transcode_block_format.block_width()
+            }
+        };
         let output_rows_in_pixels = slice_parameters.original_height;
         let total_slice_blocks = slice_parameters.num_blocks_x * slice_parameters.num_blocks_y;
         let required_buffer_bytes = transcode_block_format.calculate_minimum_output_buffer_bytes(
